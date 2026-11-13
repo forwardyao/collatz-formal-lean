@@ -1,21 +1,17 @@
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-✖ [2/5] Building Collatz.Basic (508ms)
-trace: .> LEAN_PATH=/home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean /home/runner/work/collatz-formal-lean/collatz-formal-lean/Collatz/Basic.lean -o /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/Basic.olean -i /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/Basic.ilean -c /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/Basic.c --setup /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/Basic.setup.json --json
+⚠ [2/5] Built Collatz.Basic (472ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-error: Collatz/Basic.lean:70:11: Tactic `rewrite` failed: Did not find an occurrence of the pattern
-  (?x + ?y * ?z) % ?y
-in the target expression
-  (1 + k * 2) % 2 = 1
-
-k : Nat
-h : v2 (2 * (2 * k + 1)) = v2 (2 * k + 1) + 1
-e : 2 * k + 1 = 1 + k * 2
-⊢ (1 + k * 2) % 2 = 1
-error: Collatz/Basic.lean:74:2: No goals to be solved
-Some required targets logged failures:
-- Collatz.Basic
-error: build failed
+⚠ [3/5] Built Collatz.RiseRun (259ms)
+warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
+✔ [4/5] Built Collatz (212ms)
+Build completed successfully (5 jobs).
