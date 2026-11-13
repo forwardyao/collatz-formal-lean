@@ -1,8 +1,8 @@
 /-
   Collatz 形式化线 · 层级 L3 基础定义
   ------------------------------------------------------------------
-  编译状态：**未验证**。本轮环境 DNS 不可达、零编译，本文件从未经过
-  Lean 类型检查。请以 CI（.github/workflows/lean.yml）回执为准。
+  编译状态：**未验证**。本机无 Lean 工具链（lake/lean/elan 均不可用），
+  本文件从未在本地经过类型检查。请以 CI（.github/workflows/lean.yml）回执为准。
   ------------------------------------------------------------------
 -/
 import Init
@@ -47,5 +47,28 @@ theorem v2_two_mul_succ (u : Nat) : v2 (2 * (u + 1)) = v2 (u + 1) + 1 := by
   rw [if_pos hmod]
   have hdiv : (2 * u + 1 + 1) / 2 = u + 1 := by omega
   rw [hdiv]
+
+/-- 奇数上 v2 为 0。 -/
+theorem v2_odd {n : Nat} (h : IsOdd n) : v2 n = 0 := by
+  cases n with
+  | zero =>
+      unfold IsOdd at h
+      exact absurd h (by decide)
+  | succ k =>
+      show v2 (k + 1) = 0
+      rw [v2_succ]
+      split
+      · unfold IsOdd at h
+        omega
+      · rfl
+
+/-- 形如 2 × 奇数的数，v2 恰为 1。 -/
+theorem v2_two_mul_odd (k : Nat) : v2 (2 * (2 * k + 1)) = 1 := by
+  have h := v2_two_mul_succ (2 * k)
+  have hodd : IsOdd (2 * k + 1) := by
+    unfold IsOdd
+    omega
+  rw [h, v2_odd hodd]
+  omega
 
 end Collatz
