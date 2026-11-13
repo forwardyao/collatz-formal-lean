@@ -5,7 +5,7 @@
   Lean 类型检查。请以 CI（.github/workflows/lean.yml）回执为准。
   ------------------------------------------------------------------
 -/
-import Init.Data.Nat.Basic
+import Init
 
 namespace Collatz
 
