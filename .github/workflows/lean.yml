@@ -4,9 +4,10 @@ name: lean-build
 # 触发：push 或手动（Actions 页 → Run workflow）
 # 设计要点：
 #   1) build / test 都 continue-on-error，某一步失败不中断其余检查，
-#      一次运行即得完整回执（版本、build、test、sorry 四份）。
-#   2) 结束时把全部回执写入仓库 .ci/last-status.md，外部可直接读取，无需人工转发日志。
-#   3) 最后一步「判定」按真实退出码定结论：任一检查非 0 则本次运行标红。
+#      一次运行即得完整回执（版本、olean、build、test、sorry）。
+#   2) 结束时把全部回执写入仓库 .ci/last-status.md；
+#      并把结论压成一行写进提交信息，外部无需打开日志即可判定。
+#   3) 末步按真实退出码定结论：任一检查非 0 则本次运行标红。
 on:
   push:
   workflow_dispatch:
@@ -40,26 +41,41 @@ jobs:
           echo "exit=$?" > build.exit
           tail -40 build.log
 
+      - name: 产物诊断（olean 是否齐全）
+        if: always()
+        run: |
+          set +e
+          find .lake/build/lib/lean -name '*.olean' 2>/dev/null | sort > oleans.txt
+          if [ -f oleans.txt ]; then
+            echo "olean 计数=$(wc -l < oleans.txt)"
+            cat oleans.txt
+          else
+            echo "olean 计数=0（目录未生成）"
+            : > oleans.txt
+          fi
+
       - name: 可执行自检（预期 3 条 ok + 1 条梅森表）
         continue-on-error: true
         run: |
           set +e
           lake env lean Collatz/Test.lean > test.log 2>&1
           echo "exit=$?" > test.exit
-          tail -20 test.log
+          tail -30 test.log
 
       - name: 登记真实 sorry（整行精确匹配，排除注释）
         if: always()
         run: |
-          grep -rnE '^[[:space:]]*sorry[[:space:]]*$' Collatz/ > sorry_list.txt || true
-          echo "计数=$(wc -l < sorry_list.txt)"
-          cat sorry_list.txt
+          set +e
+          grep -rnE '^[[:space:]]*sorry[[:space:]]*$' Collatz/ > sorry_list.txt 2>/dev/null
+          echo "计数=$(wc -l < sorry_list.txt 2>/dev/null)"
+          cat sorry_list.txt 2>/dev/null
           echo "提醒：sorry 是 warning 不是 error，build 通过不等于证明完成。"
 
-      - name: 回写回执到仓库（.ci/last-status.md）
+      - name: 汇总回执（写 .ci/last-status.md 并把结论写进提交信息）
         if: always()
         continue-on-error: true
         run: |
+          set +e
           mkdir -p .ci
           {
             echo "# lean-build 回执（自动回写）"
@@ -71,44 +87,59 @@ jobs:
             echo '```'
             cat version.txt 2>/dev/null || echo "(未取)"
             echo '```'
-            echo "## 退出码"
+            echo "## 退出码（0 为通过）"
             echo '```'
             cat build.exit 2>/dev/null || echo "build: (未取)"
             cat test.exit 2>/dev/null || echo "test: (未取)"
             echo '```'
-            echo "## build.log 中的 error 行（最多 40 条）"
+            echo "## olean 产物清单"
             echo '```'
-            grep -n "error" build.log 2>/dev/null | head -40 || echo "(无 error 行)"
+            cat oleans.txt 2>/dev/null || echo "(未取)"
             echo '```'
-            echo "## build.log 尾部 60 行"
+            echo "## build.log 中的 error 行（最多 30 条）"
             echo '```'
-            tail -60 build.log 2>/dev/null || echo "(未取)"
+            grep -n "error" build.log 2>/dev/null | head -30 || echo "(无 error 行)"
             echo '```'
-            echo "## test.log 尾部 30 行"
+            echo "## build.log 尾部 40 行"
             echo '```'
-            tail -30 test.log 2>/dev/null || echo "(未取)"
+            tail -40 build.log 2>/dev/null || echo "(未取)"
+            echo '```'
+            echo "## test.log 中的 error 行（最多 30 条）"
+            echo '```'
+            grep -n "error" test.log 2>/dev/null | head -30 || echo "(无 error 行)"
+            echo '```'
+            echo "## test.log 尾部 60 行"
+            echo '```'
+            tail -60 test.log 2>/dev/null || echo "(未取)"
             echo '```'
             echo "## sorry 清单（应 7 处）"
             echo '```'
             cat sorry_list.txt 2>/dev/null || echo "(未取)"
             echo '```'
           } > .ci/last-status.md
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .ci/last-status.md
+
           B=1
           if grep -q "exit=0" build.exit 2>/dev/null; then B=0; fi
           T=1
           if grep -q "exit=0" test.exit 2>/dev/null; then T=0; fi
           S=0
           if [ -f sorry_list.txt ]; then S=$(wc -l < sorry_list.txt); fi
-          E=$(grep -oE '[A-Za-z0-9_/]+\.lean:[0-9]+:[0-9]+' build.log 2>/dev/null | head -1 || true)
-          if [ -z "$E" ]; then E=none; fi
-          echo "RECEIPT build=$B test=$T sorry=$S first=$E" | tee receipt.txt
+          E=none
+          if [ "$T" = "1" ]; then
+            E=$(grep -m3 "error" test.log 2>/dev/null \
+                | tr '\n' ' ' | tr -d '"' | tr -d "'" \
+                | sed 's/[[:space:]]\+/ /g' | cut -c1-140)
+            if [ -z "$E" ]; then E="test失败但无error行"; fi
+          fi
+          echo "RECEIPT build=$B test=$T sorry=$S err=$E" | tee receipt.txt
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .ci/last-status.md
           if git diff --cached --quiet; then
             echo "回执无变化，不提交"
           else
-            git commit -m "ci: RECEIPT build=$B test=$T sorry=$S first=$E [skip ci]"
+            git commit -m "ci: RECEIPT build=$B test=$T sorry=$S err=$E [skip ci]"
             git push
           fi
 
@@ -119,9 +150,13 @@ jobs:
           name: lean-receipt
           path: |
             version.txt
+            oleans.txt
             build.log
+            build.exit
             test.log
+            test.exit
             sorry_list.txt
+            receipt.txt
 
       - name: 判定
         if: always()
