@@ -1,0 +1,53 @@
+name: lean-build
+
+# 一键类型检查：push 或手动触发（Actions 页 → Run workflow）
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 安装 elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz -o elan.tar.gz
+          tar xzf elan.tar.gz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: 版本锚点
+        run: |
+          lake --version | tee version.txt
+          lean --version | tee -a version.txt
+
+      - name: 类型检查（定理体）
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee build.log
+
+      - name: 可执行自检（预期 3 条 ok + 1 条梅森表）
+        run: |
+          set -o pipefail
+          lake env lean Collatz/Test.lean 2>&1 | tee test.log
+
+      - name: 登记真实 sorry（整行精确匹配，排除注释）
+        if: always()
+        run: |
+          echo "== sorry 清单（应为 7 处占位）=="
+          grep -rnE '^[[:space:]]*sorry[[:space:]]*$' Collatz/ | tee sorry_list.txt || echo "（无 sorry 占位）"
+          echo "计数=$(grep -rhE '^[[:space:]]*sorry[[:space:]]*$' Collatz/ | wc -l)"
+          echo "提醒：sorry 是 warning 不是 error，build 通过不等于证明完成。"
+
+      - name: 上传回执
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lean-receipt
+          path: |
+            version.txt
+            build.log
+            test.log
+            sorry_list.txt
