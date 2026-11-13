@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: e874f9e5b45a99dc121eb3464d5f04f7eea60825
-- run_id: 43408284093
+- commit: 94de8675ddd2654b53400992563003f496075153
+- run_id: 43408493531
 
 ## 版本锚点
 ```
@@ -11,7 +11,7 @@ Lean (version 4.35.0, x86_64-unknown-linux-gnu, commit eb6cafb7290e8bd5f2937522d
 ## 退出码（0 为通过）
 ```
 exit=0
-exit=1
+exit=0
 ```
 ## olean 产物清单
 ```
@@ -26,12 +26,12 @@ exit=1
 ```
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (396ms)
+⚠ [2/5] Built Collatz.Basic (295ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (253ms)
+⚠ [3/5] Built Collatz.RiseRun (214ms)
 warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
@@ -39,38 +39,17 @@ warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (223ms)
+✔ [4/5] Built Collatz (170ms)
 Build completed successfully (5 jobs).
 ```
 ## test.log 中的 error 行（最多 30 条）
 ```
-1:Collatz/Test.lean:55:72: error: Function expected at
-8:Collatz/Test.lean:56:72: error: Function expected at
-15:Collatz/Test.lean:57:69: error: Function expected at
 ```
 ## test.log 尾部 60 行
 ```
-Collatz/Test.lean:55:72: error: Function expected at
-  toString fun n => List.take n badH1
-but this term has type
-  String
-
-Note: Expected a function because this term is being applied to the argument
-  5
-Collatz/Test.lean:56:72: error: Function expected at
-  toString fun n => List.take n badH2
-but this term has type
-  String
-
-Note: Expected a function because this term is being applied to the argument
-  5
-Collatz/Test.lean:57:69: error: Function expected at
-  toString fun n => List.take n badH3
-but this term has type
-  String
-
-Note: Expected a function because this term is being applied to the argument
-  5
+"H1 ok: 20000 odds, no counterexample"
+"H2 ok: 20000 odds, no counterexample"
+"H3 ok: 3000 odds x all rise steps"
 [(1, 0, 1),
  (2, 1, 5),
  (3, 2, 17),
