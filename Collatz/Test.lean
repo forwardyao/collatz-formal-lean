@@ -6,7 +6,7 @@
   定义是良构的、且与 Python 独立实现口径一致（同一批结论、不同实现）。
   它**不能**替代定理证明，也不能替代 `lake build` 对定理体的类型检查。
 
-  编译状态：未验证（本机零编译）。
+  编译状态：定理体已由 CI 的 lake build 通过（回执 build=0）；可执行自检结果以 .ci/last-status.md 为准。
   ------------------------------------------------------------------
 -/
 import Collatz.RiseRun
@@ -52,7 +52,7 @@ def mersenneRows : List (Nat × Nat × Nat) :=
     let n := 2 ^ k - 1
     (k, rr n, itC (k - 1) n))
 
-#eval if badH1.isEmpty then "H1 ok: 20000 odds, no counterexample" else toString badH1.take 5
-#eval if badH2.isEmpty then "H2 ok: 20000 odds, no counterexample" else toString badH2.take 5
-#eval if badH3.isEmpty then "H3 ok: 3000 odds x all rise steps" else toString badH3.take 5
+#eval if badH1.isEmpty then "H1 ok: 20000 odds, no counterexample" else toString (badH1.take 5)
+#eval if badH2.isEmpty then "H2 ok: 20000 odds, no counterexample" else toString (badH2.take 5)
+#eval if badH3.isEmpty then "H3 ok: 3000 odds x all rise steps" else toString (badH3.take 5)
 #eval mersenneRows
