@@ -96,10 +96,19 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .ci/last-status.md
+          B=1
+          if grep -q "exit=0" build.exit 2>/dev/null; then B=0; fi
+          T=1
+          if grep -q "exit=0" test.exit 2>/dev/null; then T=0; fi
+          S=0
+          if [ -f sorry_list.txt ]; then S=$(wc -l < sorry_list.txt); fi
+          E=$(grep -oE '[A-Za-z0-9_/]+\.lean:[0-9]+:[0-9]+' build.log 2>/dev/null | head -1 || true)
+          if [ -z "$E" ]; then E=none; fi
+          echo "RECEIPT build=$B test=$T sorry=$S first=$E" | tee receipt.txt
           if git diff --cached --quiet; then
             echo "回执无变化，不提交"
           else
-            git commit -m "ci: 回写构建回执 [skip ci]"
+            git commit -m "ci: RECEIPT build=$B test=$T sorry=$S first=$E [skip ci]"
             git push
           fi
 
