@@ -62,15 +62,8 @@ theorem v2_odd {n : Nat} (h : IsOdd n) : v2 n = 0 := by
         omega
       · rfl
 
-/-- 形如 2 × 奇数的数，v2 恰为 1。此条不依赖 `omega` 处理取模。 -/
-theorem v2_two_mul_odd (k : Nat) : v2 (2 * (2 * k + 1)) = 1 := by
-  have h := v2_two_mul_succ (2 * k)
-  have hmod : (2 * k + 1) % 2 = 1 := by
-    have e : 2 * k + 1 = 1 + k * 2 := by omega
-    rw [e, Nat.add_mul_mod_self_left]
-    decide
-  have hz : v2 (2 * k + 1) = 0 := v2_odd hmod
-  rw [h, hz]
-  rfl
+/-- 取模断言（本轮单独入库存，用于隔离编译错误）：2k+1 除以 2 余 1。 -/
+theorem mod_two_two_mul_succ (k : Nat) : (2 * k + 1) % 2 = 1 := by
+  omega
 
 end Collatz
