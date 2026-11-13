@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: a1d0bec5066d57288c7bfbcfe545c9a34f966775
-- run_id: 43422403667
+- commit: 249a8013debafb70b9c322646167053dbfd4b9fe
+- run_id: 43423384514
 
 ## 版本锚点
 ~~~
@@ -10,39 +10,58 @@ Lean (version 4.35.0, x86_64-unknown-linux-gnu, commit eb6cafb7290e8bd5f2937522d
 ~~~
 ## 退出码（0 为通过）
 ~~~
-exit=1
-exit=1
+exit=0
+exit=0
 ~~~
 ## olean 产物清单
 ~~~
+.lake/build/lib/lean/Collatz.olean
+.lake/build/lib/lean/Collatz/Basic.olean
+.lake/build/lib/lean/Collatz/RiseRun.olean
 ~~~
 ## build.log 中的 error 行（最多 30 条）
 ~~~
-9:error: Collatz/Basic.lean:72:2: No goals to be solved
-12:error: build failed
 ~~~
 ## build.log 尾部 40 行
 ~~~
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-✖ [2/5] Building Collatz.Basic (472ms)
-trace: .> LEAN_PATH=/home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean /home/runner/work/collatz-formal-lean/collatz-formal-lean/Collatz/Basic.lean -o /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/Basic.olean -i /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/Basic.ilean -c /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/Basic.c --setup /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/Basic.setup.json --json
+⚠ [2/5] Built Collatz.Basic (335ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-error: Collatz/Basic.lean:72:2: No goals to be solved
-Some required targets logged failures:
-- Collatz.Basic
-error: build failed
+⚠ [3/5] Built Collatz.RiseRun (238ms)
+warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
+✔ [4/5] Built Collatz (208ms)
+Build completed successfully (5 jobs).
 ~~~
 ## test.log 中的 error 行（最多 30 条）
 ~~~
-1:Collatz/Test.lean:12:0: error: object file '/home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/RiseRun.olean' of module Collatz.RiseRun does not exist
 ~~~
 ## test.log 尾部 60 行
 ~~~
-Collatz/Test.lean:12:0: error: object file '/home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/RiseRun.olean' of module Collatz.RiseRun does not exist
+"H1 ok: 20000 odds, no counterexample"
+"H2 ok: 20000 odds, no counterexample"
+"H3 ok: 3000 odds x all rise steps"
+[(1, 0, 1),
+ (2, 1, 5),
+ (3, 2, 17),
+ (4, 3, 53),
+ (5, 4, 161),
+ (6, 5, 485),
+ (7, 6, 1457),
+ (8, 7, 4373),
+ (9, 8, 13121),
+ (10, 9, 39365),
+ (11, 10, 118097),
+ (12, 11, 354293)]
 ~~~
 ## sorry 清单（应 7 处）
 ~~~
