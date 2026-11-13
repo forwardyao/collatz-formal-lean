@@ -62,13 +62,4 @@ theorem v2_odd {n : Nat} (h : IsOdd n) : v2 n = 0 := by
         omega
       · rfl
 
-/-- 形如 2 × 奇数的数，v2 恰为 1。 -/
-theorem v2_two_mul_odd (k : Nat) : v2 (2 * (2 * k + 1)) = 1 := by
-  have h := v2_two_mul_succ (2 * k)
-  have hodd : IsOdd (2 * k + 1) := by
-    unfold IsOdd
-    omega
-  rw [h, v2_odd hodd]
-  omega
-
 end Collatz
