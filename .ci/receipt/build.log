@@ -1,19 +1,17 @@
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (387ms)
+⚠ [2/5] Built Collatz.Basic (368ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-✖ [3/5] Building Collatz.RiseRun (325ms)
-trace: .> LEAN_PATH=/home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.35.0/bin/lean /home/runner/work/collatz-formal-lean/collatz-formal-lean/Collatz/RiseRun.lean -o /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/RiseRun.olean -i /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/RiseRun.ilean -c /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/RiseRun.c --setup /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/ir/Collatz/RiseRun.setup.json --json
-error: Collatz/RiseRun.lean:27:4: No goals to be solved
-warning: Collatz/RiseRun.lean:32:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:51:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:59:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:67:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:73:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:80:8: declaration uses `sorry`
-Some required targets logged failures:
-- Collatz.RiseRun
-error: build failed
+⚠ [3/5] Built Collatz.RiseRun (247ms)
+warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:23:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:42:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:50:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:58:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:64:8: declaration uses `sorry`
+warning: Collatz/RiseRun.lean:71:8: declaration uses `sorry`
+✔ [4/5] Built Collatz (206ms)
+Build completed successfully (5 jobs).

@@ -1,1 +1,1 @@
-RECEIPT build=1 test=1 sorry=6 ver=4.35.0 err=Collatz/Test.lean:12:0: error: object file /home/runner/work/collatz-formal-lean/collatz-formal-lean/.lake/build/lib/lean/Collatz/RiseRun.ol
+RECEIPT build=0 test=0 sorry=7 ver=4.35.0 err=none
