@@ -36,10 +36,14 @@ def badH1 : List Nat :=
 def badH2 : List Nat :=
   (oddsUpTo 20000).filter (fun n => rr n != v2 (n + 1) - 1)
 
-/-- H3 反例收集：所有 j ≤ v2(n+1)-1 的迭代值应等于闭式。 -/
+/-- H3 反例收集：所有 j ≤ v2(n+1)-1 的迭代值应等于闭式。
+    注：本文件依赖链止于 Init，其中没有 `List.bind`，
+    故用 foldr + 列表拼接展平，不引入 Std/Mathlib。 -/
 def badH3 : List (Nat × Nat) :=
-  ((oddsUpTo 3000).bind (fun n => (List.range (v2 (n + 1))).map (fun j => (n, j))))
-    |>.filter (fun p => itC p.2 p.1 != cf (v2 (p.1 + 1)) p.2 (oddPart p.1))
+  let pairs : List (Nat × Nat) :=
+    (oddsUpTo 3000).foldr
+      (fun n acc => (List.range (v2 (n + 1))).map (fun j => (n, j)) ++ acc) []
+  pairs.filter (fun p => itC p.2 p.1 != cf (v2 (p.1 + 1)) p.2 (oddPart p.1))
 
 /-- H5 抽查：n = 2^k - 1 的连升步数应为 k-1，末值为 2 * 3^(k-1) - 1。 -/
 def mersenneRows : List (Nat × Nat × Nat) :=
