@@ -1,31 +1,37 @@
 # lean-build 回执（自动回写）
 
-- commit: b52c5f89abdc3e0c5fbed1b206ba0eff5ea95316
-- run_id: 43407578446
+- commit: 40607b076481b54861cc31dde01024569649de7a
+- run_id: 43408079247
 
 ## 版本锚点
 ```
 Lake version 5.0.0-src+eb6cafb (Lean version 4.35.0)
 Lean (version 4.35.0, x86_64-unknown-linux-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)
 ```
-## 退出码
+## 退出码（0 为通过）
 ```
 exit=0
 exit=1
 ```
-## build.log 中的 error 行（最多 40 条）
+## olean 产物清单
+```
+.lake/build/lib/lean/Collatz.olean
+.lake/build/lib/lean/Collatz/Basic.olean
+.lake/build/lib/lean/Collatz/RiseRun.olean
+```
+## build.log 中的 error 行（最多 30 条）
 ```
 ```
-## build.log 尾部 60 行
+## build.log 尾部 40 行
 ```
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (326ms)
+⚠ [2/5] Built Collatz.Basic (363ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (253ms)
+⚠ [3/5] Built Collatz.RiseRun (273ms)
 warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
@@ -33,11 +39,24 @@ warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (208ms)
+✔ [4/5] Built Collatz (205ms)
 Build completed successfully (5 jobs).
 ```
-## test.log 尾部 30 行
+## test.log 中的 error 行（最多 30 条）
 ```
+1:Collatz/Test.lean:41:19: error(lean.invalidField): Invalid field `bind`: The environment does not contain `List.bind`, so it is not possible to project the field `bind` from an expression
+4:Collatz/Test.lean:51:72: error: Function expected at
+11:Collatz/Test.lean:52:72: error: Function expected at
+18:Collatz/Test.lean:53:69: error: Function expected at
+```
+## test.log 尾部 60 行
+```
+Collatz/Test.lean:41:19: error(lean.invalidField): Invalid field `bind`: The environment does not contain `List.bind`, so it is not possible to project the field `bind` from an expression
+  oddsUpTo 3000
+of type `List Nat`
+Collatz/Test.lean:51:72: error: Function expected at
+  toString fun n => List.take n badH1
+but this term has type
   String
 
 Note: Expected a function because this term is being applied to the argument
