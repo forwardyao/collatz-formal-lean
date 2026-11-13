@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: 39016f03e9956d0024bd856c4a82eda4575f8cd7
-- run_id: 43424304738
+- commit: 1d4a61916c24c1229e48ad8b63c53b91306cc249
+- run_id: 43424553499
 
 ## 版本锚点
 ~~~
@@ -26,12 +26,12 @@ exit=0
 ~~~
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (472ms)
+⚠ [2/5] Built Collatz.Basic (450ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (259ms)
+⚠ [3/5] Built Collatz.RiseRun (300ms)
 warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
@@ -39,7 +39,7 @@ warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (212ms)
+✔ [4/5] Built Collatz (268ms)
 Build completed successfully (5 jobs).
 ~~~
 ## test.log 中的 error 行（最多 30 条）
