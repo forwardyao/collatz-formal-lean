@@ -1,0 +1,7 @@
+Collatz/RiseRun.lean:19:  sorry
+Collatz/RiseRun.lean:24:  sorry
+Collatz/RiseRun.lean:43:  sorry
+Collatz/RiseRun.lean:52:  sorry
+Collatz/RiseRun.lean:60:  sorry
+Collatz/RiseRun.lean:65:  sorry
+Collatz/RiseRun.lean:72:  sorry
