@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: 40607b076481b54861cc31dde01024569649de7a
-- run_id: 43408079247
+- commit: e874f9e5b45a99dc121eb3464d5f04f7eea60825
+- run_id: 43408284093
 
 ## 版本锚点
 ```
@@ -26,12 +26,12 @@ exit=1
 ```
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (363ms)
+⚠ [2/5] Built Collatz.Basic (396ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (273ms)
+⚠ [3/5] Built Collatz.RiseRun (253ms)
 warning: Collatz/RiseRun.lean:17:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:22:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:41:8: declaration uses `sorry`
@@ -39,36 +39,32 @@ warning: Collatz/RiseRun.lean:49:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:57:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:63:8: declaration uses `sorry`
 warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (205ms)
+✔ [4/5] Built Collatz (223ms)
 Build completed successfully (5 jobs).
 ```
 ## test.log 中的 error 行（最多 30 条）
 ```
-1:Collatz/Test.lean:41:19: error(lean.invalidField): Invalid field `bind`: The environment does not contain `List.bind`, so it is not possible to project the field `bind` from an expression
-4:Collatz/Test.lean:51:72: error: Function expected at
-11:Collatz/Test.lean:52:72: error: Function expected at
-18:Collatz/Test.lean:53:69: error: Function expected at
+1:Collatz/Test.lean:55:72: error: Function expected at
+8:Collatz/Test.lean:56:72: error: Function expected at
+15:Collatz/Test.lean:57:69: error: Function expected at
 ```
 ## test.log 尾部 60 行
 ```
-Collatz/Test.lean:41:19: error(lean.invalidField): Invalid field `bind`: The environment does not contain `List.bind`, so it is not possible to project the field `bind` from an expression
-  oddsUpTo 3000
-of type `List Nat`
-Collatz/Test.lean:51:72: error: Function expected at
+Collatz/Test.lean:55:72: error: Function expected at
   toString fun n => List.take n badH1
 but this term has type
   String
 
 Note: Expected a function because this term is being applied to the argument
   5
-Collatz/Test.lean:52:72: error: Function expected at
+Collatz/Test.lean:56:72: error: Function expected at
   toString fun n => List.take n badH2
 but this term has type
   String
 
 Note: Expected a function because this term is being applied to the argument
   5
-Collatz/Test.lean:53:69: error: Function expected at
+Collatz/Test.lean:57:69: error: Function expected at
   toString fun n => List.take n badH3
 but this term has type
   String
