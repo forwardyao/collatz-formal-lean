@@ -1,0 +1,7 @@
+# 无外部依赖：不引入 Mathlib，全工程只依赖 Lean 4 核心库。
+name = "collatz"
+version = "0.1.0"
+defaultTargets = ["Collatz"]
+
+[[lean_lib]]
+name = "Collatz"
