@@ -62,8 +62,17 @@ theorem v2_odd {n : Nat} (h : IsOdd n) : v2 n = 0 := by
         omega
       · rfl
 
-/-- 取模断言（本轮单独入库存，用于隔离编译错误）：2k+1 除以 2 余 1。 -/
+/-- 取模断言：2k+1 除以 2 余 1。单独入库存，已由 CI 判绿（8fb4d506）。 -/
 theorem mod_two_two_mul_succ (k : Nat) : (2 * k + 1) % 2 = 1 := by
   omega
+
+/-- 形如 2 × 奇数的数，v2 恰为 1。奇数性走 `apply`＋`unfold`，不依赖定义等价自动展开。 -/
+theorem v2_two_mul_odd (k : Nat) : v2 (2 * (2 * k + 1)) = 1 := by
+  have hz : v2 (2 * k + 1) = 0 := by
+    apply v2_odd
+    unfold IsOdd
+    exact mod_two_two_mul_succ k
+  have h := v2_two_mul_succ (2 * k)
+  rw [h, hz]
 
 end Collatz
