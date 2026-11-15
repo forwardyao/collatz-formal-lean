@@ -22,7 +22,7 @@ theorem C_gt_self_of_mod4_three (n : Nat) (hn : IsOdd n) (h : n % 4 = 3) :
     rw [h3]
     exact v2_two_mul_odd (3 * (n / 4) + 2)
   have hC : C n = 6 * (n / 4) + 5 := by
-    have h2 : 2 ^ v2 (3 * n + 1) = 2 := by rw [hv]; decide
+    have h2 : 2 ^ v2 (3 * n + 1) = 2 := by rw [hv]
     unfold C
     rw [h2]
     have h3 : 3 * n + 1 = 2 * (6 * (n / 4) + 5) := by omega
