@@ -17,7 +17,19 @@ namespace Collatz
 theorem C_gt_self_of_mod4_three (n : Nat) (hn : IsOdd n) (h : n % 4 = 3) :
     n < C n := by
   have hn4 : n = 4 * (n / 4) + 3 := by omega
-  sorry
+  have hv : v2 (3 * n + 1) = 1 := by
+    have h3 : 3 * n + 1 = 2 * (2 * (3 * (n / 4) + 2) + 1) := by omega
+    rw [h3]
+    exact v2_two_mul_odd (3 * (n / 4) + 2)
+  have hC : C n = 6 * (n / 4) + 5 := by
+    have h2 : 2 ^ v2 (3 * n + 1) = 2 := by rw [hv]; decide
+    unfold C
+    rw [h2]
+    have h3 : 3 * n + 1 = 2 * (6 * (n / 4) + 5) := by omega
+    rw [h3]
+    omega
+  rw [hC]
+  omega
 
 /-- 下降侧：n ≡ 1 (mod 4) 且 n > 1 ⟹ C n < n。 -/
 theorem C_lt_self_of_mod4_one (n : Nat) (hn : IsOdd n) (h : n % 4 = 1) (h1 : 1 < n) :
