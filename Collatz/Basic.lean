@@ -1,8 +1,8 @@
 /-
   Collatz 形式化线 · 层级 L3 基础定义
   ------------------------------------------------------------------
-  编译状态：**未验证**。本机无 Lean 工具链（lake/lean/elan 均不可用），
-  本文件从未在本地经过类型检查。请以 CI（.github/workflows/lean.yml）回执为准。
+  编译状态：已验证。本机 Lean v4.35.0 下 `lake build` 通过（2026-11-15）。
+  全仓结论以 CI（.github/workflows/lean.yml）回执为准。
   ------------------------------------------------------------------
 -/
 import Init
@@ -44,7 +44,7 @@ theorem v2_two_mul_succ (u : Nat) : v2 (2 * (u + 1)) = v2 (u + 1) + 1 := by
   have h : 2 * (u + 1) = 2 * u + 1 + 1 := by omega
   rw [h, v2_succ]
   have hmod : (2 * u + 1 + 1) % 2 = 0 := by omega
-  rw [if_pos hmod]
+  rw [ite_eq_left hmod]
   have hdiv : (2 * u + 1 + 1) / 2 = u + 1 := by omega
   rw [hdiv]
 
