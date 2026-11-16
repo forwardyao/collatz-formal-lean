@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: dd98f175cdffc5db9333b0feaa3a8d675130c0b8
-- run_id: 43793421311
+- commit: c12ec5ccfe30455b6c358c4d814239506b5948e3
+- run_id: 43794355047
 
 ## 版本锚点
 ~~~
@@ -26,13 +26,9 @@ exit=0
 ~~~
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (305ms)
-warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
-
-Hint: Replace the deprecated name:
-  i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-✔ [3/5] Built Collatz.RiseRun (1.7s)
-✔ [4/5] Built Collatz (173ms)
+✔ [2/5] Built Collatz.Basic (351ms)
+✔ [3/5] Built Collatz.RiseRun (1.8s)
+✔ [4/5] Built Collatz (215ms)
 Build completed successfully (5 jobs).
 ~~~
 ## test.log 中的 error 行（最多 30 条）
