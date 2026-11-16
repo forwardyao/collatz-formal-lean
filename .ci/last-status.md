@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: 8f48f59226528693459542b979e751ea747b3036
-- run_id: 43682306798
+- commit: dd98f175cdffc5db9333b0feaa3a8d675130c0b8
+- run_id: 43793421311
 
 ## 版本锚点
 ~~~
@@ -26,25 +26,13 @@ exit=0
 ~~~
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (320ms)
+⚠ [2/5] Built Collatz.Basic (305ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (295ms)
-warning: Collatz/RiseRun.lean:17:43: Variable name `hn` is not explicitly referenced.
-
-Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
-  [apply] _hn
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-warning: Collatz/RiseRun.lean:35:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:54:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:62:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:76:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:83:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (167ms)
+✔ [3/5] Built Collatz.RiseRun (1.7s)
+✔ [4/5] Built Collatz (173ms)
 Build completed successfully (5 jobs).
 ~~~
 ## test.log 中的 error 行（最多 30 条）
@@ -70,10 +58,4 @@ Build completed successfully (5 jobs).
 ~~~
 ## sorry 清单（应 7 处）
 ~~~
-Collatz/RiseRun.lean:37:  sorry
-Collatz/RiseRun.lean:56:  sorry
-Collatz/RiseRun.lean:65:  sorry
-Collatz/RiseRun.lean:73:  sorry
-Collatz/RiseRun.lean:78:  sorry
-Collatz/RiseRun.lean:85:  sorry
 ~~~

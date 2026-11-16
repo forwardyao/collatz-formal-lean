@@ -1,22 +1,10 @@
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-⚠ [2/5] Built Collatz.Basic (320ms)
+⚠ [2/5] Built Collatz.Basic (305ms)
 warning: Collatz/Basic.lean:47:6: `if_pos` has been deprecated: Use `ite_eq_left` instead
 
 Hint: Replace the deprecated name:
   i̵f̵_̵p̵o̵s̵i̲t̲e̲_̲e̲q̲_̲l̲e̲f̲t̲
-⚠ [3/5] Built Collatz.RiseRun (295ms)
-warning: Collatz/RiseRun.lean:17:43: Variable name `hn` is not explicitly referenced.
-
-Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
-  [apply] _hn
-
-Note: This linter can be disabled with `set_option linter.unusedVariables false`
-warning: Collatz/RiseRun.lean:35:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:54:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:62:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:70:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:76:8: declaration uses `sorry`
-warning: Collatz/RiseRun.lean:83:8: declaration uses `sorry`
-✔ [4/5] Built Collatz (167ms)
+✔ [3/5] Built Collatz.RiseRun (1.7s)
+✔ [4/5] Built Collatz (173ms)
 Build completed successfully (5 jobs).
