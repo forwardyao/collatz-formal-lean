@@ -1,6 +1,6 @@
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-✔ [2/5] Built Collatz.Basic (299ms)
-✔ [3/5] Built Collatz.RiseRun (1.2s)
-✔ [4/5] Built Collatz (189ms)
+✔ [2/5] Built Collatz.Basic (320ms)
+✔ [3/5] Built Collatz.RiseRun (1.5s)
+✔ [4/5] Built Collatz (182ms)
 Build completed successfully (5 jobs).
