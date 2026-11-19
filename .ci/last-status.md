@@ -1,7 +1,7 @@
 # lean-build 回执（自动回写）
 
-- commit: c12ec5ccfe30455b6c358c4d814239506b5948e3
-- run_id: 43794355047
+- commit: 42b237520da990b826f28ca427e6384661786e93
+- run_id: 44489858681
 
 ## 版本锚点
 ~~~
@@ -26,9 +26,9 @@ exit=0
 ~~~
 info: collatz: no previous manifest, creating one from scratch
 info: toolchain not updated; already up-to-date
-✔ [2/5] Built Collatz.Basic (351ms)
-✔ [3/5] Built Collatz.RiseRun (1.8s)
-✔ [4/5] Built Collatz (215ms)
+✔ [2/5] Built Collatz.Basic (299ms)
+✔ [3/5] Built Collatz.RiseRun (1.2s)
+✔ [4/5] Built Collatz (189ms)
 Build completed successfully (5 jobs).
 ~~~
 ## test.log 中的 error 行（最多 30 条）
