@@ -53,7 +53,6 @@ theorem q4_s2_rise (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 11) :
   rcases hd with ⟨hd_eq, _⟩
   have hd_4m : n + 1 = 4 * m := by
     rw [hd_eq]
-    rfl
   have hm : m = 4 * k + 3 := by omega
   -- 9m − 1 = 2·(2·(9k+6)+1)，右端是「2 × 奇数」
   have he : 9 * m - 1 = 2 * (2 * (9 * k + 6) + 1) := by omega
@@ -88,7 +87,6 @@ theorem q4_s2_fall (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 3) :
   rcases hd with ⟨hd_eq, _⟩
   have hd_4m : n + 1 = 4 * m := by
     rw [hd_eq]
-    rfl
   have hm : m = 4 * k + 1 := by omega
   -- 9m − 1 = 4·(9k+2)，4 可整除
   have he : 9 * m - 1 = 4 * (9 * k + 2) := by omega
@@ -126,7 +124,7 @@ theorem q4_s2_fall (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 3) :
       -- 先展开 hle' 的 n
       have hle'k : (16 * k + 3) * 2 ^ v2 (9 * m - 1) ≤ 9 * m - 1 := by
         simpa [hnk] using hle'
-      exact le_trans hn4 hle'k
+      exact Nat.le_trans hn4 hle'k
     have hnum : 9 * m - 1 = 4 * (9 * k + 2) := by omega
     have : (16 * k + 3) * 4 ≤ 4 * (9 * k + 2) := by
       simpa [hnum] using hcontr
