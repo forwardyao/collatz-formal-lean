@@ -10,15 +10,26 @@
   本文件改写为两条单侧定理（升支／降支），数学上由「类内 n%16 ∈ {3,11} 恒真」
   补全为上述双向判据（类内二分，见文末注释）。s=2 时 R(n) = (9m−1)/2^{v₂(9m−1)}。
 
-  状态标注（如实）：
-    - 本文件由起草候选 Collatz_Q4S2.lean（120 行）平移为仓库模块 Collatz/Q4S2.lean，
-      数学内容与定理体未作任何改动，仅本头注释更新。
+  状态标注（如实）：v2 = 依 run #27 回执的修复版。
+    - v1 合入后仓库 CI（run #27，build exit=1）报 5 处 Lean 精化错误，全部位于
+      本文件且均非数学问题（test exit=0、sorry 计数为 0）：
+      ① 行 41/72 `have hm … := by omega`：Decomp 是合取 Prop（n+1 = 2^s·m ∧ IsOdd m），
+        omega 不自动解构 → 先 rcases hd 取第一分量，rw [hd_eq] + rfl 化简
+        2^2·m = 4·m，再 omega；
+      ② 行 87 `Nat.one_le_pow (v2 (9*k+2)) 2`：该引理签名含显式前提 `0 < 2`
+        （参数序：幂、底、前提），补 (by decide)；
+      ③ 行 90-91 `by_contra`／`push_neg`：属 Mathlib 策略，本仓库无 Mathlib
+        → 改用核心库 by_cases + Nat.le_of_not_gt 重建反证骨架
+        （¬(R(n)<n) 三分律 ⟹ n ≤ R(n)），后续乘分母推导不变；
+      ④ 行 64 unsolved goals 系上述①③连锁所致，非独立问题。
+    修订逐条对照 .ci/last-status.md 与 .ci/receipt/build.log（run #27）原文定位，
+    定理陈述与数学推导零改动；全文无 sorry，不设占位。
     - 合入后由仓库 lean-build workflow 全量判定：build / test / sorry 计数
       以 .ci/last-status.md 与 .ci/receipt/ 原文回执为准，未经回执不得标绿。
-    - 全文不含 sorry，不设占位；数学推导完整，Lean 精化逐条对照库内已判绿引理
-      （Basic：v2_two_mul_odd、omega；RiseRun：v2_four_mul；Init：Nat.pow_add、
-      Nat.mul_le_mul_right、Nat.le_div_iff_mul_le、Nat.mod_add_div）。
-    - 若在 build 环境下个别引理归属有出入（Init 与 Std 边界），按文件内注释替换即可。
+    - 所用引理全部落在仓库现有引用链（Basic：v2_two_mul_odd、omega 核心内建；
+      RiseRun：v2_four_mul；核心库 Init：Nat.pow_add、Nat.mul_le_mul_left/right、
+      Nat.le_div_iff_mul_le、Nat.two_pow_pos、Nat.mod_add_div、Nat.le_of_not_gt、
+      by_cases、rfl、decide）。
   ------------------------------------------------------------------
 -/
 import Collatz.RiseRun
@@ -38,6 +49,11 @@ theorem q4_s2_rise (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 11) :
     omega
   rcases hnk with ⟨k, hnk⟩
   -- 由 Decomp：n + 1 = 4m ⟹ m = 4k + 3
+  --   （v2 修复①：Decomp 为合取 Prop，先 rcases 解构取第一分量，rw+rfl 化简 2^2·m）
+  rcases hd with ⟨hd_eq, _⟩
+  have hd_4m : n + 1 = 4 * m := by
+    rw [hd_eq]
+    rfl
   have hm : m = 4 * k + 3 := by omega
   -- 9m − 1 = 2·(2·(9k+6)+1)，右端是「2 × 奇数」
   have he : 9 * m - 1 = 2 * (2 * (9 * k + 6) + 1) := by omega
@@ -68,7 +84,11 @@ theorem q4_s2_fall (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 3) :
     rw [← Nat.mod_add_div n 16]
     omega
   rcases hnk with ⟨k, hnk⟩
-  -- 由 Decomp：n + 1 = 4m ⟹ m = 4k + 1
+  -- 由 Decomp：n + 1 = 4m ⟹ m = 4k + 1（v2 修复①：同升支，先解构 hd 再 omega）
+  rcases hd with ⟨hd_eq, _⟩
+  have hd_4m : n + 1 = 4 * m := by
+    rw [hd_eq]
+    rfl
   have hm : m = 4 * k + 1 := by omega
   -- 9m − 1 = 4·(9k+2)，4 可整除
   have he : 9 * m - 1 = 4 * (9 * k + 2) := by omega
@@ -84,27 +104,33 @@ theorem q4_s2_fall (n m : Nat) (hd : Decomp n 2 m) (h16 : n % 16 = 3) :
     rw [hv, Nat.pow_add]
     have htwo : 2 ^ 2 = 4 := by decide
     rw [htwo]
-    have hone : 1 ≤ 2 ^ v2 (9 * k + 2) := Nat.one_le_pow (v2 (9 * k + 2)) 2
+    --  v2 修复②：Nat.one_le_pow 需显式提供 0 < 2 前提
+    have hone : 1 ≤ 2 ^ v2 (9 * k + 2) := Nat.one_le_pow (v2 (9 * k + 2)) 2 (by decide)
     exact Nat.mul_le_mul_right 4 hone
   -- 反证：假设 R(n) ≥ n
-  by_contra hnot
-  push_neg at hnot
-  -- hnot : n ≤ (9m−1) / 2^{v₂(9m−1)}；两侧乘分母
-  have hle' := (Nat.le_div_iff_mul_le (show 0 < 2 ^ v2 (9 * m - 1) from
-      Nat.two_pow_pos (v2 (9 * m - 1)))).1 hnot
-  -- n · 分母 ≥ n · 4
-  have hn4 : (16 * k + 3) * 4 ≤ (16 * k + 3) * 2 ^ v2 (9 * m - 1) := by
-    exact Nat.mul_le_mul_left (16 * k + 3) hd4
-  -- 于是 n·4 ≤ 被除数(9m−1)，代入线性式得矛盾
-  have hcontr : (16 * k + 3) * 4 ≤ 9 * m - 1 := by
-    -- 先展开 hle' 的 n
-    have hle'k : (16 * k + 3) * 2 ^ v2 (9 * m - 1) ≤ 9 * m - 1 := by
-      simpa [hnk] using hle'
-    exact le_trans hn4 hle'k
-  have hnum : 9 * m - 1 = 4 * (9 * k + 2) := by omega
-  have : (16 * k + 3) * 4 ≤ 4 * (9 * k + 2) := by
-    simpa [hnum] using hcontr
-  omega
+  --   （v2 修复③：核心库无 by_contra／push_neg，改用 by_cases 分支 + 三分律
+  --     Nat.le_of_not_gt：¬(R(n) < n) ⟹ n ≤ R(n)，后续乘分母推导与 v1 相同）
+  by_cases hlt : (9 * m - 1) / 2 ^ v2 (9 * m - 1) < n
+  · exact hlt
+  · exfalso
+    -- 由 hlt 否定与三分律：n ≤ R(n)
+    have hle : n ≤ (9 * m - 1) / 2 ^ v2 (9 * m - 1) := Nat.le_of_not_gt hlt
+    -- 两侧乘分母：n · 分母 ≤ 9m−1
+    have hle' := (Nat.le_div_iff_mul_le (show 0 < 2 ^ v2 (9 * m - 1) from
+        Nat.two_pow_pos (v2 (9 * m - 1)))).1 hle
+    -- n · 分母 ≥ n · 4
+    have hn4 : (16 * k + 3) * 4 ≤ (16 * k + 3) * 2 ^ v2 (9 * m - 1) := by
+      exact Nat.mul_le_mul_left (16 * k + 3) hd4
+    -- 于是 n·4 ≤ 被除数(9m−1)，代入线性式得矛盾
+    have hcontr : (16 * k + 3) * 4 ≤ 9 * m - 1 := by
+      -- 先展开 hle' 的 n
+      have hle'k : (16 * k + 3) * 2 ^ v2 (9 * m - 1) ≤ 9 * m - 1 := by
+        simpa [hnk] using hle'
+      exact le_trans hn4 hle'k
+    have hnum : 9 * m - 1 = 4 * (9 * k + 2) := by omega
+    have : (16 * k + 3) * 4 ≤ 4 * (9 * k + 2) := by
+      simpa [hnum] using hcontr
+    omega
 
 /-!
   ### 双向判据补全说明（数学注，不在本文件内另立引理）
