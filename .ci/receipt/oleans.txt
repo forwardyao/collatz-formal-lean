@@ -1,2 +1,4 @@
+.lake/build/lib/lean/Collatz.olean
 .lake/build/lib/lean/Collatz/Basic.olean
+.lake/build/lib/lean/Collatz/Q4S2.olean
 .lake/build/lib/lean/Collatz/RiseRun.olean
